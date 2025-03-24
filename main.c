@@ -42,30 +42,24 @@ int win(data_t *data)
         start_clock();
         data->index = 0;
         data->error = 0;
-        init_word(data, "file.txt");
+        init_word(data);
         printf("\n%s", data->to_write);
         return 0;
     }
     return 1;
 }
 
-int main(void)
+int loop(data_t *data, arg_info_t *info)
 {
-    srand(time(NULL));
-    data_t *data = init_data();
-    int c = 0;
     int res = 0;
+    int c = 0;
 
-    if (!data)
-        return 84;
-    printf("%s", data->to_write);
-    start_clock();
     while (c != 27) {
         c = get_input();
         if (c == -1) {
             perror("scanf");
-            destroy_data(&data);
-            return 84;
+            destroy_data(&data, info);
+            return 1;
         }
         res = check_input(data, c);
         if (res == 2) {
@@ -76,6 +70,27 @@ int main(void)
         }
         display(data, res);
     }
-    destroy_data(&data);
+    return 0;
+}
+
+int main(int ac, char **av)
+{
+    srand(time(NULL));
+    arg_info_t arg_info = {0};
+    data_t *data = NULL;
+
+    parse_arg(ac, av, &arg_info);
+    if (arg_info.error || arg_info.help) {
+        display_help();
+        return arg_info.error ? 84 : 0;
+    }
+    data = init_data(&arg_info);
+    if (!data)
+        return 84;
+    printf("%s", data->to_write);
+    start_clock();
+    if (loop(data, &arg_info))
+        return 84;
+    destroy_data(&data, &arg_info);
     return 0;
 }

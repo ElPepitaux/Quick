@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "string.h": "c",
+        "stdio.h": "c",
+        "quick.h": "c",
+        "stdlib.h": "c",
+        "termio.h": "c"
+    }
+}

@@ -48,6 +48,10 @@ char *get_content(char *file)
     fseek(fd, 0, SEEK_END);
     size = ftell(fd);
     fseek(fd, 0, SEEK_SET);
+    if (size == 0) {
+        fclose(fd);
+        return NULL;
+    }
     content = malloc(size + 1);
     if (!content) {
         fclose(fd);
@@ -68,21 +72,27 @@ int tab_len(char **tab)
     return i;
 }
 
-char *chose_word(char *file)
+char **get_content_split(char *file, char *skip)
 {
     char *content = get_content(file);
     char **tab = NULL;
-    char *word = NULL;
 
     if (!content)
         return NULL;
-    tab = split_word(content, "\n");
+    tab = split_word(content, skip);
     if (!tab)
         return NULL;
+    return tab;
+}
+
+char *chose_word(char **tab)
+{
+    char *word = NULL;
+
+    if (!tab)
+        return DEFAULT_TEXT;
     word = strdup(tab[rand() % tab_len(tab)]);
     if (!word)
         return NULL;
-    for (int i = 0; tab[i]; i++)
-        free(tab[i]);
     return word;
 }

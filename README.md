@@ -19,8 +19,10 @@ $ make
 To use Quick, run the following command:
 
 ```bash
-$ ./quick
+$ ./quick FILE
 ```
 
-If you want to change the text to be measured, you need to edit the `file.txt` file. The text should be written in a single line, you can add many more lines, the program will
-choose a random line to measure, and don't use special characters like.
+Where `FILE` is the path to the file you want to measure.
+If not file is provided, Quick will use a default text.
+
+You can use 'escape key' to exit the program.
