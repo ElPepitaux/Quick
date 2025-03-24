@@ -27,4 +27,7 @@ install: all
 	cp $(NAME) $(DESTDIR)$(PREFIX)/bin/$(NAME)
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/$(NAME)
 
+uninstall:
+	rm -f $(DESTDIR)$(PREFIX)/bin/$(NAME)
+
 .PHONY: clean fclean re all install
