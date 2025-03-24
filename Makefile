@@ -7,6 +7,8 @@ CFLAGS = -Wall -W -Werror -Wextra -I./include
 
 OBJ = $(SRC:.c=.o)
 
+CC = gcc
+
 $(NAME): $(OBJ)
 	gcc -o $(NAME) $(OBJ) $(CFLAGS)
 
@@ -20,4 +22,9 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: clean fclean re all
+install: all
+	mkdir -p $(DESTDIR)$(PREFIX)/bin
+	cp $(NAME) $(DESTDIR)$(PREFIX)/bin/$(NAME)
+	chmod 755 $(DESTDIR)$(PREFIX)/bin/$(NAME)
+
+.PHONY: clean fclean re all install
